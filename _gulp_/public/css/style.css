@@ -1,0 +1,13 @@
+.button {
+  background-color: #333;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: #3d3d3d;
+}
+.button:active {
+  background-color: #474747;
+  position: relative;
+  top: 1px;
+  left: -1px;
+}

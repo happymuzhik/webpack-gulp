@@ -1,0 +1,45 @@
+--Установка--
+1. npm install webpack -g
+2. В рабочей директории создать директорию node_modules
+3. npm init
+4. npm install webpack --save-dev
+5. создать(где удобно) файл webpack.config.js. я делал в корне
+6. прописать конфиги.
+7. в рабочей директории, там где файл с конфигами запустить webpack.
+
+--установка бабеля--
+1. npm install babel-loader babel-core babel-preset-es2015 --save-dev
+2. в лоадеры добавить бабель.
+пример конфига с бабелем:
+module.exports = {
+    entry: './src/app.js',
+    output: {
+        path: './bin',
+        filename: 'app.bundle.js',
+    },
+    module: {
+        loaders: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+             loader: 'babel-loader',
+             query: {
+                 presets: ['es2015']
+            }
+        }]
+    }
+}
+
+--установка стилуса и сыы вообще--
+1.npm install css-loader --save-dev
+2.npm install style-loader --save-dev
+3.npm install extract-text-webpack-plugin --save-dev - нужен для экстракта цсс в отдельный файл
+4.npm install stylus-loader stylus --save-dev
+4.npm install raw-loader --save-dev
+
+
+Примеры конфига смотреть в webpack.config.js
+
+Краткий гайд по работе:
+вебпак смотрит файл , указанный в entry. И далее грузит все указанные там модули и обрабатывает соответсвующими модулями и плагинами.
+Следовательно для модульной разработки, просто необходимо добавить нужные модули в ентри файл, и дальше вебпак сам соберет.
+По имортам и сборке сыы смотреть уроки кантора. Там сови нюансы со ссылками.

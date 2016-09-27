@@ -1,0 +1,23 @@
+color = #CCC;
+color2 = #333;
+
+getInputStyle(){
+	padding: 10px;	
+}
+
+getBorder(p){
+	(p)?p:1px;
+}
+
+body {
+	background-color: color;
+}
+
+body, body * {
+	box-sizing: border-box;	
+	input {
+		getInputStyle()
+		text-align: center
+		border: getBorder(1px) solid color2
+	}	
+}

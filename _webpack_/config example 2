@@ -12,7 +12,7 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 query: {
@@ -28,7 +28,7 @@ module.exports = {
     },
     resolve:{
         modulesDirectories: ['node_modules', './pages/common'],
-        extensions: ['', '.js', 'jsx']
+        extensions: ['', '.js', '.jsx']
     },
     plugins:[
         new webpack.DefinePlugin({

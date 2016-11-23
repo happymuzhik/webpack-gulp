@@ -1,0 +1,45 @@
+const webpack = require('webpack');
+
+const js_landing_dev_dir = './pages/landing/';
+const js_landing_prod_dir = './../public/js/landing/'
+
+module.exports = {
+	// watch: true, // для автоматического сохранения, можно также указфывать при запуске вебпака - webpack --watch
+    entry: js_landing_dev_dir+'entry.js',
+    output: {
+        filename: js_landing_prod_dir+'bundle.js'
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['es2015', 'stage-0', 'react']
+                }
+            },            
+            {
+                test: /\.styl$/,
+                exclude: /node_modules/,
+                loader: 'style!css!autoprefixer-loader?browsers=last 2 versions!stylus?resolve url'
+            },
+        ]
+    },
+    resolve:{
+        modulesDirectories: ['node_modules', './pages/common'],
+        extensions: ['', '.js', 'jsx']
+    },
+    plugins:[
+        new webpack.DefinePlugin({
+            'process.env':{
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress:{
+                warnings: false
+            }
+        })
+    ]
+};

@@ -1,0 +1,67 @@
+const webpack = require('webpack');
+
+const path_to_root = './../../';
+
+const js_landing_dev_dir = './pages/landing/';
+const js_landing_prod_dir = './landing/web/js/';
+
+const js_moderator_dev_dir = './pages/moderator/';
+const js_moderator_prod_dir = './moderator/web/js/';
+
+const js_crewing_dev_dir = './pages/crewing/';
+const js_crewing_prod_dir = './crewing/web/js/';
+
+const dev_dir = js_crewing_dev_dir;
+const prod_dir = js_crewing_prod_dir;
+
+const entry = {};
+
+entry[js_landing_prod_dir] = js_landing_dev_dir+'entry.js';
+entry[js_crewing_prod_dir] = js_crewing_dev_dir+'entry.js';
+entry[js_moderator_prod_dir] = js_moderator_dev_dir+'entry.js';
+
+module.exports = {
+   entry: entry,
+   output: {
+	   path: path_to_root,
+	   filename: '[name]bundle.js'
+   },
+	module: {
+		loaders: [
+			{
+				test: /\.(js|jsx)$/,
+				exclude: /node_modules/,
+				loader: 'babel-loader',
+				query: {
+					presets: ['es2015', 'stage-0', 'react']
+				}
+			},
+			{
+				test: /\.styl$/,
+				exclude: /node_modules/,
+				loader: 'style!css!autoprefixer-loader?browsers=last 2 versions!stylus?resolve url'
+			},
+			{
+				test: /\.css$/,
+				exclude: /node_modules/,
+				loader: 'style!css!autoprefixer-loader?browsers=last 2 versions'
+			},
+		]
+	},
+	resolve:{
+		modulesDirectories: ['node_modules', './pages/common'],
+		extensions: ['', '.js', '.jsx']
+	},/*
+	plugins:[
+		new webpack.DefinePlugin({
+			'process.env':{
+				'NODE_ENV': JSON.stringify('production')
+			}
+		}),
+		new webpack.optimize.UglifyJsPlugin({
+			compress:{
+				warnings: false
+			}
+		})
+	]*/
+};

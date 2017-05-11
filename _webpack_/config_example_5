@@ -1,0 +1,98 @@
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
+
+module.exports = {
+	entry: {
+		landing: './pages/landing/entry',
+		crewing: './pages/crewing/entry',
+		sailor: './pages/sailor/entry',
+		moderator: './pages/moderator/entry',
+	},
+	output: {
+		path: '../web/assets',
+		publicPath: '/assets/',
+		// filename: '[name].[chunkhash].js', //production
+		filename: '[name].js',
+	},
+	module: {
+		loaders: [
+			{
+				test: /\.(js|jsx)$/,
+				exclude: /node_modules/,
+				loader: 'babel-loader',
+				query: {
+					presets: ['es2015', 'stage-0', 'react']
+				}
+			},
+			{
+				test: /\.styl$/,
+				exclude: /node_modules/,
+				loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader?browsers=last 2 versions!stylus-loader?resolve url')
+			},			
+			{
+				test: /\.css$/,
+				exclude: /node_modules/,
+				loader: 'style!css!autoprefixer-loader?browsers=last 2 versions'
+			},
+			{
+				test: /\.(png|jpg|svg|otf|ttf|eot|woff|woff2)$/,
+				exclude: /node_modules/,
+				// loader: 'file?name=[name]_[hash].[ext]' //for production
+				loader: 'file?name=[name].[ext]'
+			},
+		]
+	},
+	resolve:{
+		modulesDirectories: ['node_modules', './pages/common'],
+		extensions: ['', '.js', '.jsx']
+	},
+	plugins:[
+		// new CompressionPlugin({
+		// 	asset: "[path].gz[query]",
+		// 	algorithm: "gzip",
+		// 	test: /\.(js|html)$/,
+		// 	threshold: 10240,
+		// 	minRatio: 0.8
+		// }),
+		new HtmlWebpackPlugin({
+			filename: '../landing.html',
+			template: './pages/landing/html/landing.html',
+			useGzip: true,
+			chunks:	['landing']
+		}),
+		new HtmlWebpackPlugin({		
+			filename: '../crewing.html',
+			template: './pages/crewing/html/crewing.html',
+			useGzip: true,
+			chunks:	['crewing']
+		}),
+		new HtmlWebpackPlugin({
+			filename: '../sailor.html',
+			template: './pages/sailor/html/sailor.html',
+			useGzip: true,
+			chunks:	['sailor']
+		}),
+		new HtmlWebpackPlugin({
+			filename: '../moderator.html',
+			template: './pages/moderator/html/moderator.html',
+			useGzip: true,
+			chunks:	['moderator']
+		}), 
+		// new ExtractTextPlugin("[name].[chunkhash].css"), //production
+		new ExtractTextPlugin("[name].css"),
+		// new WebpackCleanupPlugin(), //for production
+		// new webpack.DefinePlugin({ //for production
+		// 	'process.env':{
+		// 		'NODE_ENV': JSON.stringify('production')
+		// 	}
+		// }),
+		// new webpack.optimize.UglifyJsPlugin({ //for production
+		// 	compress:{
+		// 		warnings: false
+		// 	}
+		// }),		
+	]
+};
